@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ConsoleService1": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "publishAllPorts": true,
+      "containerRunArguments": "--network=\"host\""
+    }
+  }
+}
