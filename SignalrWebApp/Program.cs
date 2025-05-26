@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
-
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<RabbitClient>();
 
 var app = builder.Build();

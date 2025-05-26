@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using System.Text;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using CommonsLib;
 namespace WorkerService1
 {
     public class Worker : BackgroundService
@@ -25,22 +27,22 @@ namespace WorkerService1
             await channel.QueueDeclareAsync(queue: "queue", durable: true, exclusive: false,
             autoDelete: false, arguments: null);
 
-
+            var rnd= new Random();
             while (!stoppingToken.IsCancellationRequested)
             {
-                var message = string.Format("Worker running at: {0}", DateTime.Now.ToString());
-                var body = Encoding.UTF8.GetBytes(message);
-                var properties = new BasicProperties
-                {
-                    Persistent = true
-                };
-
-                await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "queue", mandatory: true, basicProperties: properties, body: body);
+                var reading = (double)(rnd.Next(3000, 4000)/100f);
+                var model= new RabbitMessageModel { Value= reading,Timestamp=DateTime.Now };
+                
+                var body =  JsonSerializer.SerializeToUtf8Bytes(model);
+                //     var message = string.Format("Date time: {0}, Value: {1}", DateTime.Now,reading.ToString("N2"));
+                
+                await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "queue", mandatory: true, body: body);
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
-                    _logger.LogInformation(message);
+
+                   _logger.LogInformation(model.Timestamp.ToString() +" :: "+ model.Value.ToString());
                 }
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(500, stoppingToken);
             }
         }
     }

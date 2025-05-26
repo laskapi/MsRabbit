@@ -26,10 +26,9 @@
         "ASPNETCORE_HTTPS_PORTS": "8081",
         "ASPNETCORE_HTTP_PORTS": "8080"
       },
-      "publishAllPorts": true,
+      "publishAllPorts": false,
       "useSSL": true,
-      "containerRunEnvironmentFiles": "",
-      "containerRunArguments": "--network=\"host\""
+      "containerRunArguments": "--network host"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"

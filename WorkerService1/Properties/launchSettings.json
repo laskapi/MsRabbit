@@ -9,7 +9,7 @@
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",
-      "containerRunArguments": "--network=\"host\""
+      "containerRunArguments": "--network host"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"
